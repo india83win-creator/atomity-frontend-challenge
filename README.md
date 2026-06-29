@@ -1,47 +1,68 @@
 # Atomity Frontend Engineering Challenge
 
-This repository contains my submission for the Atomity Frontend Engineering Challenge.
+This repository contains my submission for the Atomity Frontend Engineering Challenge. I have architected and designed a premium, highly-interactive mock platform tailored specifically for a B2B Cloud Optimization SaaS.
 
-## Live Demo
-[Insert Vercel Live URL Here]
+## 🚀 Getting Started
 
-## Which feature I chose and why
-Since I am simulating this without visual reference, I chose to implement a highly dynamic **Cloud Infrastructure Optimization & Monitoring** section. This aligns directly with Atomity's product core and showcases complex scrolling animations, dynamic metrics, and server cluster health.
+First, install the dependencies:
+```bash
+npm install
+```
 
-## My approach to animation
-I used **Framer Motion** to orchestrate all animations:
-1. **Scroll Triggers**: Used `whileInView` with viewport offsets so the animations only trigger when the user actually reaches the section.
-2. **Staggered Entrance**: The data cards use a staggered delay based on their index to create a cascading reveal effect.
-3. **Micro-interactions**: Added spring-based scaling on hover states for the cards to provide a premium and responsive feel.
-4. **Number Counters**: Used Framer Motion's `useSpring` and `useTransform` to create a smooth number counting animation for metrics like CPU load and cost savings.
+Then, run the development server:
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## How I structured tokens/styles
-I utilized **Tailwind CSS v4's modern CSS variables architecture**. 
-In `globals.css`, I defined all my colors, border radii, and fonts as standard CSS variables inside Tailwind's `@theme` directive. This ensures:
-- No hardcoded hex values in components.
-- Seamless Dark/Light mode integration simply by overriding the root CSS variables in the `.dark` class.
-- Reusable semantic token names like `bg-primary`, `accent-success`, and `text-secondary`.
-I also utilized modern CSS features like `@container` for responsive component sizing (instead of relying solely on window queries), `clamp()` for fluid typography, and `color-mix()` for glassmorphism effects.
+---
 
-## How I handled data fetching and caching
-I used **TanStack Query (React Query)** to handle data fetching from `JSONPlaceholder` (simulating a cloud infrastructure API endpoint). 
-- **Caching**: The query client is configured with a `staleTime` of 60 seconds and `refetchOnWindowFocus: false` to avoid redundant requests.
-- **States**: The component gracefully handles loading states (using a shimmer/pulse skeleton) and error boundaries.
+## 🎨 Design Philosophy & Aesthetics
+To match the cutting-edge nature of a cloud infrastructure company like Atomity, I enforced a strict, premium **Dark Mode** aesthetic utilizing **Glassmorphism**.
+- **Liquid Animated Backgrounds:** Custom CSS animations create a slow-pulsing, organic background using CSS `blur` and `mix-blend-mode`, giving the platform a "living" feel.
+- **Glass Panels:** Custom CSS utility classes (`glass-card`, `glass-panel`) provide frosted glass transparency with subtle borders and drop shadows, ensuring content pops against the dark background.
+- **Micro-Animations:** Implemented pure CSS keyframe animations (`animate-fade-in-up`, `animate-scale-in`) so every page load and modal interaction feels incredibly smooth and premium without requiring heavy animation libraries.
 
-## Libraries used and why
-- **Next.js (App Router)**: For a modern, performant React architecture.
-- **Tailwind CSS v4**: For rapid styling and robust design token management.
-- **Framer Motion**: For declarative and performant animations that handle scroll events natively.
-- **TanStack Query**: For robust, production-ready async state management and caching.
-- **Lucide React**: For clean, modern SVG icons that match the premium aesthetic.
-- **clsx / tailwind-merge**: To easily compose conditional Tailwind classes inside custom components without style conflicts.
+---
 
-## Tradeoffs or decisions I made
-- Used a generic public API (`JSONPlaceholder`) and mapped its properties (`id`, `username`) to my domain models (`uptime`, `cpu load`, `node name`) rather than building a custom mock backend.
-- Simplified the dark mode toggle to use a basic React state and CSS class toggling rather than adding `next-themes` to keep the dependency footprint small and demonstrate manual token architecture.
+## 🛠️ Key Features Implemented
 
-## What I would improve with more time
-- Add more complex data visualization (e.g., using Recharts for a historical CPU load graph).
-- Implement a 3D visualizer using Three.js / React Three Fiber for a literal "cloud node" topology map.
-- Add comprehensive unit and integration tests (Jest / Playwright).
-- Enhance the accessibility with full keyboard navigation and ARIA live regions for the dynamic data.
+### 1. Interactive Pricing Checkout Flows (`/pricing`)
+I completely overhauled the pricing section to mimic a real production application:
+- **Mock Checkout UI:** The "Pro" tier opens a beautiful split-pane checkout modal.
+- **Strict Form Validation:** The checkout form requires a valid 16-digit credit card, `MM/YY` expiry, and 3-4 digit CVC. The UPI option requires a valid `@` string. Submission is blocked dynamically on failure.
+- **B2B Email Enforcement:** The "Enterprise" tier opens a lead generation form. It actively blocks common personal email domains (like `@gmail.com` and `@yahoo.com`), forcing users to provide a legitimate company email.
+
+### 2. Intelligent Scheduling Calendar (`/demo`)
+I built a completely custom React calendar component from scratch to handle demo bookings:
+- **Strict Real-World Logic:** Prevents users from navigating to past months.
+- **Bounding Limits:** Dynamically calculates a hard 3-month future limit, disabling dates beyond that window to ensure realistic sales pipelines.
+- **Persistent State:** Safely stores the selected date and time using React state (`useState`), ensuring smooth UI updates and conditional rendering (e.g. only showing the time picker after a date is selected).
+
+### 3. Dedicated Pro Workspace (`/pro-workspace`)
+To showcase application routing and post-checkout user flows, successfully checking out on the Pricing page routes the user to a mock dashboard.
+- Displays realistic telemetry data (Active Nodes, Uptime, Projected Savings).
+- Features external links (`target="_blank"`) directly to the official AWS and Google Cloud consoles for a realistic integration feel.
+
+---
+
+## 🏗️ Technical Stack & Architecture
+
+- **Next.js (App Router):** Leveraged the latest App Router architecture for seamless page transitions and structured routing.
+- **React (Client Components):** Used `'use client'` where necessary to handle complex local state (modals, calendars, form validations, toast notifications).
+- **Tailwind CSS:** Used extensively for all responsive layout grids and utility styling.
+- **Custom CSS (`globals.css`):** Extracted recurring complex styles (glassmorphism rules, keyframe animations) into clean, reusable CSS classes to keep the React code easily readable.
+- **Lucide React:** Utilized consistent, modern SVG iconography throughout the platform.
+
+---
+
+## 💡 Tradeoffs & Decisions
+- **No External UI Component Libraries:** Instead of installing Radix UI or Material UI, I built the modals, toast notifications, and calendar entirely from scratch. This demonstrates a deep understanding of underlying React state management and CSS styling.
+- **No Heavy Animation Libraries:** Instead of pulling in Framer Motion, I opted to write native CSS keyframe animations (`fade-in-up`, `scale-in`). This drastically reduces the JavaScript bundle size while achieving the same premium feel.
+
+---
+
+## 🔮 What I would improve with more time
+- **Global State Management:** Move modal and user authentication state to React Context or Zustand to allow seamless data sharing across multiple routes.
+- **Component Extraction:** Break the large `PricingPage` and `DemoPage` files down into smaller, granular components (`<CheckoutModal />`, `<CalendarWidget />`) for better testability and reusability.
+- **Testing:** Add comprehensive unit tests for the calendar logic and form validation rules using Jest and React Testing Library.

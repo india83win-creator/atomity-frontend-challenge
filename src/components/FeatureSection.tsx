@@ -11,7 +11,7 @@ export function FeatureSection() {
   const { data, isLoading, error } = useCloudData();
 
   return (
-    <section className="py-24 px-6 md:px-12 lg:px-24 w-full max-w-7xl mx-auto">
+    <section id="feature-section" className="py-24 px-6 md:px-12 lg:px-24 w-full max-w-7xl mx-auto scroll-mt-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -43,21 +43,22 @@ export function FeatureSection() {
       ) : (
         <div className="grid grid-cols-1 @container md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Highlight KPI Card */}
-          <AnimatedCard className="md:col-span-2 lg:col-span-3 bg-gradient-to-br from-accent-primary/10 to-transparent border-accent-primary/20 flex flex-col md:flex-row items-center justify-between p-8">
-            <div className="mb-6 md:mb-0">
-              <h3 className="text-2xl font-bold mb-2">Total Compute Savings</h3>
+          <AnimatedCard className="md:col-span-2 lg:col-span-3 glass-card relative overflow-hidden flex flex-col md:flex-row items-center justify-between p-8">
+            <div className="absolute inset-0 bg-gradient-to-r from-accent-primary/10 to-transparent pointer-events-none" />
+            <div className="mb-6 md:mb-0 relative z-10">
+              <h3 className="text-3xl font-bold mb-2 tracking-tight">Total Compute Savings</h3>
               <p className="text-text-secondary">Across all active regions this month</p>
             </div>
-            <div className="text-5xl md:text-6xl font-black text-accent-primary flex items-baseline">
+            <div className="text-5xl md:text-7xl font-black text-accent-primary flex items-baseline relative z-10 drop-shadow-md">
               $<MetricCounter value={12450} format={(v) => v.toLocaleString(undefined, { maximumFractionDigits: 0 })} />
-              <span className="text-xl ml-2 text-text-tertiary font-medium">/mo</span>
+              <span className="text-2xl ml-2 text-text-tertiary font-medium">/mo</span>
             </div>
           </AnimatedCard>
 
           {/* Dynamic Data Cards */}
           {data?.slice(0, 6).map((node, i) => (
-            <AnimatedCard key={node.id} delay={0.1 * i} className="flex flex-col h-full group relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-1 bg-bg-secondary">
+            <AnimatedCard key={node.id} delay={0.1 * i} className="flex flex-col h-full group relative overflow-hidden glass-card">
+              <div className="absolute top-0 left-0 w-full h-1 bg-text-primary/10">
                 <div 
                   className={`h-full ${node.status === "active" ? "bg-accent-success" : node.status === "inactive" ? "bg-accent-error" : "bg-accent-warning"}`} 
                   style={{ width: `${node.uptime}%` }} 
