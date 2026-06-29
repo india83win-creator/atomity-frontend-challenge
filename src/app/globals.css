@@ -16,7 +16,7 @@
   --color-accent-warning: var(--accent-warning);
   --color-border-primary: var(--border-primary);
   
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-outfit);
 }
 
 @layer base {
@@ -100,7 +100,34 @@
     font-size: clamp(1rem, 2vw, 1.25rem);
   }
   .glass-panel {
-    background: color-mix(in srgb, var(--bg-secondary) 80%, transparent);
-    backdrop-filter: blur(12px);
+    background: color-mix(in srgb, var(--bg-primary) 40%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid color-mix(in srgb, var(--text-primary) 10%, transparent);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .glass-card {
+    background: color-mix(in srgb, var(--bg-secondary) 30%, transparent);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid color-mix(in srgb, var(--text-primary) 5%, transparent);
+    box-shadow: inset 0 1px 1px color-mix(in srgb, var(--bg-primary) 20%, transparent);
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
   }
 }
