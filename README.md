@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Atomity Frontend Engineering Challenge
 
-## Getting Started
+This repository contains my submission for the Atomity Frontend Engineering Challenge.
 
-First, run the development server:
+## Live Demo
+[Insert Vercel Live URL Here]
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Which feature I chose and why
+Since I am simulating this without visual reference, I chose to implement a highly dynamic **Cloud Infrastructure Optimization & Monitoring** section. This aligns directly with Atomity's product core and showcases complex scrolling animations, dynamic metrics, and server cluster health.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## My approach to animation
+I used **Framer Motion** to orchestrate all animations:
+1. **Scroll Triggers**: Used `whileInView` with viewport offsets so the animations only trigger when the user actually reaches the section.
+2. **Staggered Entrance**: The data cards use a staggered delay based on their index to create a cascading reveal effect.
+3. **Micro-interactions**: Added spring-based scaling on hover states for the cards to provide a premium and responsive feel.
+4. **Number Counters**: Used Framer Motion's `useSpring` and `useTransform` to create a smooth number counting animation for metrics like CPU load and cost savings.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How I structured tokens/styles
+I utilized **Tailwind CSS v4's modern CSS variables architecture**. 
+In `globals.css`, I defined all my colors, border radii, and fonts as standard CSS variables inside Tailwind's `@theme` directive. This ensures:
+- No hardcoded hex values in components.
+- Seamless Dark/Light mode integration simply by overriding the root CSS variables in the `.dark` class.
+- Reusable semantic token names like `bg-primary`, `accent-success`, and `text-secondary`.
+I also utilized modern CSS features like `@container` for responsive component sizing (instead of relying solely on window queries), `clamp()` for fluid typography, and `color-mix()` for glassmorphism effects.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## How I handled data fetching and caching
+I used **TanStack Query (React Query)** to handle data fetching from `JSONPlaceholder` (simulating a cloud infrastructure API endpoint). 
+- **Caching**: The query client is configured with a `staleTime` of 60 seconds and `refetchOnWindowFocus: false` to avoid redundant requests.
+- **States**: The component gracefully handles loading states (using a shimmer/pulse skeleton) and error boundaries.
 
-## Learn More
+## Libraries used and why
+- **Next.js (App Router)**: For a modern, performant React architecture.
+- **Tailwind CSS v4**: For rapid styling and robust design token management.
+- **Framer Motion**: For declarative and performant animations that handle scroll events natively.
+- **TanStack Query**: For robust, production-ready async state management and caching.
+- **Lucide React**: For clean, modern SVG icons that match the premium aesthetic.
+- **clsx / tailwind-merge**: To easily compose conditional Tailwind classes inside custom components without style conflicts.
 
-To learn more about Next.js, take a look at the following resources:
+## Tradeoffs or decisions I made
+- Used a generic public API (`JSONPlaceholder`) and mapped its properties (`id`, `username`) to my domain models (`uptime`, `cpu load`, `node name`) rather than building a custom mock backend.
+- Simplified the dark mode toggle to use a basic React state and CSS class toggling rather than adding `next-themes` to keep the dependency footprint small and demonstrate manual token architecture.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## What I would improve with more time
+- Add more complex data visualization (e.g., using Recharts for a historical CPU load graph).
+- Implement a 3D visualizer using Three.js / React Three Fiber for a literal "cloud node" topology map.
+- Add comprehensive unit and integration tests (Jest / Playwright).
+- Enhance the accessibility with full keyboard navigation and ARIA live regions for the dynamic data.
